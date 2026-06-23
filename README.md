@@ -201,6 +201,7 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 - 浮动音乐播放器
 - 自定义首页（个人介绍 + 技能展示）
 - 部署目标：`lodineD.github.io`（main 分支）
+- 线上域名：`logicblog.cc`（Vercel 托管 + Cloudflare DNS）
 
 ---
 
@@ -240,3 +241,80 @@ pnpm add css js-yaml
 ```powershell
 pnpm add hexo-util
 ```
+
+### Q: `vercel login` 报 TLS 连接失败？
+
+在中国大陆环境下需要先配置代理：
+
+```powershell
+$env:HTTPS_PROXY = "http://127.0.0.1:7890"
+$env:HTTP_PROXY = "http://127.0.0.1:7890"
+vercel login
+```
+
+---
+
+## 十、Vercel 部署与域名配置
+
+本项目使用 **Vercel** 作为托管平台，域名 `logicblog.cc` 通过 **Cloudflare** 进行 DNS 解析。
+
+### 架构概览
+
+```
+GitHub (hexo-sourcecode)
+    ↓ push 触发自动部署
+Vercel (托管 + 构建)
+    ↓
+logicblog.cc (Cloudflare DNS → Vercel)
+```
+
+### 1. 安装 Vercel CLI
+
+```powershell
+npm install -g vercel
+```
+
+### 2. 登录 Vercel
+
+> 中国大陆环境需要先配置代理，见上方常见问题。
+
+```powershell
+vercel login
+```
+
+### 3. 关联项目并部署
+
+```powershell
+# 首次部署（会引导你关联 GitHub 仓库）
+vercel
+
+# 后续部署到生产环境
+vercel --prod
+```
+
+### 4. 绑定自定义域名 `logicblog.cc`
+
+在 Vercel 控制台中：
+1. 进入项目设置 → **Domains**
+2. 添加域名 `logicblog.cc`
+3. Vercel 会生成 DNS 记录（A 记录 / CNAME）
+
+### 5. Cloudflare DNS 配置
+
+在 Cloudflare 控制面板中为 `logicblog.cc` 添加以下 DNS 记录：
+
+| 类型 | 名称 | 内容 | 代理状态 |
+|---|---|---|---|
+| CNAME | `@` | `cname.vercel-dns.com` | Proxied (橙色云朵) |
+| CNAME | `www` | `cname.vercel-dns.com` | Proxied (橙色云朵) |
+
+> **注意**：Cloudflare 的 CNAME 扁平化（CNAME Flattening）支持根域名直接 CNAME，无需使用 A 记录。
+
+### 6. 验证部署
+
+```powershell
+# 检查域名是否正常
+Invoke-WebRequest -Uri "https://logicblog.cc" -UseBasicParsing
+```
+
+访问 https://logicblog.cc 确认页面正常加载。
