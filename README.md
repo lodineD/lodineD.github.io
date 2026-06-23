@@ -315,6 +315,7 @@ vercel --prod
 ```powershell
 # 检查域名是否正常
 Invoke-WebRequest -Uri "https://logicblog.cc" -UseBasicParsing
+Invoke-WebRequest -Uri "www.logicblog.cc" -UseBasicParsing
 ```
 
 访问 https://logicblog.cc 确认页面正常加载。
