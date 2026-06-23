@@ -1,8 +1,27 @@
+# OS
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# Hexo
 db.json
 *.log
-node_modules/
-public/
-.deploy_git/
-.github/
+node_modules
+public
+.deploy_git
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+
+# GitHub
+.github
+
+# Package lock (using pnpm, no need for npm lock)
+package-lock.json
