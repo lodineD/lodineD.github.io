@@ -1,0 +1,174 @@
+# NexT Theme Configuration
+# https://theme-next.js.org/docs/getting-started/configuration
+
+# ---------------------------------------------------------------
+# Scheme Settings
+# ---------------------------------------------------------------
+scheme: Muse
+darkmode: true
+
+# ---------------------------------------------------------------
+# Site Information Settings
+# ---------------------------------------------------------------
+favicon:
+  small: /images/favicon-16x16-next.png
+  medium: /images/favicon-32x32-next.png
+  apple_touch_icon: /images/apple-touch-icon-next.png
+  safari_pinned_tab: /images/logo.svg
+
+# ---------------------------------------------------------------
+# Menu Settings
+# ---------------------------------------------------------------
+menu:
+  home: / || fa fa-user
+  blog: /blog/ || fa fa-book
+  archives: /archives/ || fa fa-archive
+
+menu_settings:
+  icons: true
+  badges: false
+
+# ---------------------------------------------------------------
+# Sidebar Settings
+# ---------------------------------------------------------------
+sidebar:
+  position: left
+  display: post
+  padding: 18
+  offset: 12
+
+# Sidebar Avatar
+avatar:
+  url: /images/avatar.gif
+  rounded: false
+  rotated: false
+
+# Posts / Categories / Tags in sidebar
+site_state: true
+
+# Social Links
+social:
+  GitHub: https://github.com/lodineD || fab fa-github
+  E-Mail: 'mailto: || fa fa-envelope'
+  Twitter: '# || fab fa-twitter'
+  RSS: '# || fa fa-rss'
+
+social_icons:
+  enable: true
+  icons_only: false
+  transition: false
+
+# Table of Contents
+toc:
+  enable: true
+  number: true
+  wrap: false
+  expand_all: false
+  max_depth: 6
+
+# ---------------------------------------------------------------
+# Post Settings
+# ---------------------------------------------------------------
+# Automatically scroll page to description anchor
+auto_excerpt:
+  enable: true
+  length: 150
+
+# ---------------------------------------------------------------
+# Custom Page Settings
+# ---------------------------------------------------------------
+# Define custom file paths for injecting custom content
+custom_file_path:
+  #head: source/_data/head.njk
+  #header: source/_data/header.njk
+  #sidebar: source/_data/sidebar.njk
+  #postMeta: source/_data/post-meta.njk
+  #postBodyStart: source/_data/post-body-start.njk
+  #postBodyEnd: source/_data/post-body-end.njk
+  #footer: source/_data/footer.njk
+  bodyEnd: source/_data/body-end.njk
+  #variable: source/_data/variables.styl
+  #mixin: source/_data/mixins.styl
+  style: source/_data/styles.styl
+
+# ---------------------------------------------------------------
+# Misc Theme Settings
+# ---------------------------------------------------------------
+# Back to top
+back2top:
+  enable: true
+  sidebar: false
+  scrollpercent: false
+
+# Bookmark
+bookmark:
+  enable: false
+  color: '#222'
+  save: auto
+
+# Code Copy
+copycode:
+  enable: false
+  show_result: false
+  style: null
+
+# Fancybox
+fancybox: false
+
+# Medium Zoom
+mediumzoom: false
+
+# Lazyload
+lazyload: false
+
+# Pangu
+pangu: false
+
+# Comments
+comments:
+  style: tabs
+  active: null
+  storage: true
+  lazyload: false
+  nav: null
+
+# Algolia Search
+algolia:
+  hits:
+    per_page: 10
+  labels:
+    input_placeholder: Search for Posts
+    hits_empty: "We didn't find any results for the search: ${query}"
+    hits_stats: "${hits} results found in ${time} ms"
+
+# Local Search
+localsearch:
+  enable: false
+  trigger: auto
+  top_n_per_article: 1
+  unescape: false
+  preload: false
+
+# Motion
+motion:
+  enable: true
+  async: false
+  transition:
+    post_block: fadeIn
+    post_header: slideDownIn
+    post_body: slideDownIn
+    coll_header: slideLeftIn
+    sidebar: slideUpIn
+
+# ---------------------------------------------------------------
+# Footer Settings
+# ---------------------------------------------------------------
+footer:
+  since: 2026
+  icon:
+    name: fa fa-heart
+    animated: true
+    color: '#ff0000'
+  copyright: logic
+  powered: true
+  theme: true
