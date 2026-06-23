@@ -23,5 +23,3 @@ public
 # GitHub
 .github
 
-# Package lock (using pnpm, no need for npm lock)
-package-lock.json
