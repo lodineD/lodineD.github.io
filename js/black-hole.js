@@ -565,9 +565,17 @@ window.__scene = fsScene;
 window.__camera = camera;
 window.__renderer = renderer;
 
-// 隐藏加载指示器
-const loader = document.getElementById('bh-loader');
-if (loader) {
-  loader.style.opacity = '0';
-  setTimeout(() => loader.remove(), 500);
-}
+// 首帧渲染后隐藏加载界面
+let firstFrame = true;
+const origRender = composer.render.bind(composer);
+composer.render = function () {
+  origRender();
+  if (firstFrame) {
+    firstFrame = false;
+    const loader = document.getElementById('bh-loader');
+    if (loader) {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 600);
+    }
+  }
+};
