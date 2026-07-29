@@ -3,6 +3,24 @@
 // 相对论多普勒/引力红移、光子环、程序化银河星场 + Bloom/ACES 后期管线。
 // 定位：博客全屏背景画布（#star-canvas），自动电影运镜，无交互。
 
+// WebGL 检测：不支持则降级到 Canvas 星空背景
+(function checkWebGL() {
+  try {
+    var c = document.createElement('canvas');
+    var gl = c.getContext('webgl2') || c.getContext('webgl');
+    if (!gl) throw new Error('WebGL unavailable');
+    return; // OK, continue loading
+  } catch (e) {
+    var loader = document.getElementById('bh-loader');
+    if (loader) loader.remove();
+    var s = document.createElement('script');
+    s.src = '/js/stars.js';
+    document.head.appendChild(s);
+    // 终止模块执行：后续 import 不会触发
+    throw null;
+  }
+})();
+
 import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -27,9 +45,26 @@ const CONFIG = {
   vignette: 1,
   grain: 0.045,
   ca: 0.0028,        // 色差
+  // 移动端自适应
+  stepsMobile: 140,  // 移动端步数（≤768px）
+  stepsTablet: 210,  // 平板步数（≤1024px）
+  dprMobile: 1.0,    // 移动端像素比上限
 };
 
 const DEG = Math.PI / 180;
+
+/* =================================================== adaptive quality */
+function adaptiveSteps() {
+  const w = window.innerWidth;
+  if (w <= 768) return CONFIG.stepsMobile;
+  if (w <= 1024) return CONFIG.stepsTablet;
+  return CONFIG.steps;
+}
+
+function adaptiveDpr() {
+  const w = window.innerWidth;
+  return Math.min(window.devicePixelRatio || 1, w <= 768 ? CONFIG.dprMobile : CONFIG.maxDpr);
+}
 
 /* ================================================================ shaders */
 const RAY_VERT = /* glsl */`
@@ -368,7 +403,7 @@ void main() {
 const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace; // ACES 在合成 pass 手动完成
 renderer.toneMapping = THREE.NoToneMapping;
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, CONFIG.maxDpr));
+renderer.setPixelRatio(adaptiveDpr());
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.domElement.id = 'star-canvas';
 renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;';
@@ -388,7 +423,7 @@ const rayUni = {
   uCamPos:     { value: new THREE.Vector3(4.49, 2.72, 25.46) },
   uCamTarget:  { value: new THREE.Vector3(0, 0, 0) },
   uFov:        { value: 1 / Math.tan(CONFIG.fov * DEG / 2) },
-  uSteps:      { value: CONFIG.steps },
+  uSteps:      { value: adaptiveSteps() },
   uRotSign:    { value: 1 },
   uDin:        { value: CONFIG.diskInner },
   uDout:       { value: CONFIG.diskOuter },
@@ -440,7 +475,7 @@ composer.addPass(new ShaderPass({
 
 function onResize() {
   const w = window.innerWidth, h = window.innerHeight;
-  const dpr = Math.min(window.devicePixelRatio || 1, CONFIG.maxDpr);
+  const dpr = adaptiveDpr();
   renderer.setPixelRatio(dpr);
   renderer.setSize(w, h);
   composer.setPixelRatio(dpr);
@@ -449,6 +484,7 @@ function onResize() {
   camera.updateProjectionMatrix();
   renderer.getDrawingBufferSize(bufSize);
   rayUni.uRes.value.copy(bufSize);
+  rayUni.uSteps.value = adaptiveSteps();
   compUni.uRes.value.copy(bufSize);
 }
 window.addEventListener('resize', onResize);
@@ -528,3 +564,10 @@ window.__threeReady = true;
 window.__scene = fsScene;
 window.__camera = camera;
 window.__renderer = renderer;
+
+// 隐藏加载指示器
+const loader = document.getElementById('bh-loader');
+if (loader) {
+  loader.style.opacity = '0';
+  setTimeout(() => loader.remove(), 500);
+}

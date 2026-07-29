@@ -413,39 +413,26 @@
     applyLoopMode();
   });
 
-  // Auto-play on page load
+  // Auto-play: 首次尝试（现代浏览器会拦截，在首次交互时重试）
   play();
 
-  // Check if user interacted on a previous page (e.g. homepage -> blog)
+  // 跨页面延续：用户在上一个页面已交互过
   var userInteracted = false;
   try { userInteracted = sessionStorage.getItem('mp_user_interacted') === '1'; } catch(e) {}
-  if (userInteracted) {
-    // AudioContext was pre-activated on homepage — aggressively retry
-    play();
-    setTimeout(function() { if (!isPlaying) play(); }, 50);
-    setTimeout(function() { if (!isPlaying) play(); }, 200);
-    setTimeout(function() { if (!isPlaying) play(); }, 600);
-  }
+  if (userInteracted) play();
 
-  // Mark this page as interacted too
-  function markInteracted() {
-    try { sessionStorage.setItem('mp_user_interacted', '1'); } catch(e) {}
-  }
-  document.addEventListener('click', markInteracted, { once: true });
-  document.addEventListener('touchstart', markInteracted, { once: true });
-  document.addEventListener('scroll', markInteracted, { once: true });
-
-  // Retry autoplay on first user interaction (fallback for strict browsers)
+  // 首次用户交互时重试自动播放（也标记 sessionStorage 供跨页使用）
   var autoplayDone = false;
-  function retryAutoplay() {
-    if (autoplayDone || isPlaying) return;
-    autoplayDone = true;
-    markInteracted();
-    play();
+  function onFirstInteraction() {
+    try { sessionStorage.setItem('mp_user_interacted', '1'); } catch(e) {}
+    if (!autoplayDone && !isPlaying) {
+      autoplayDone = true;
+      play();
+    }
   }
-  document.addEventListener('click', retryAutoplay, { once: true });
-  document.addEventListener('touchstart', retryAutoplay, { once: true });
-  document.addEventListener('scroll', retryAutoplay, { once: true });
-  document.addEventListener('keydown', retryAutoplay, { once: true });
+  document.addEventListener('click', onFirstInteraction, { once: true });
+  document.addEventListener('touchstart', onFirstInteraction, { once: true });
+  document.addEventListener('scroll', onFirstInteraction, { once: true });
+  document.addEventListener('keydown', onFirstInteraction, { once: true });
 
 })();
