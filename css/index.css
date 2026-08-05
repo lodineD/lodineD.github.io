@@ -163,6 +163,7 @@ body {
   text-transform: uppercase;
   text-shadow: 0 0 6px rgba(74,158,255,0.3);
 }
+.profile-tagline { display: none; }
 
 /* Profile button */
 .profile-btn {
@@ -347,7 +348,6 @@ body {
 
 /* === MOBILE === */
 @media (max-width: 768px) {
-  .page-wrapper { padding-top: 140px !important; }
   .main-nav { padding: 0 20px; }
   .nav-menu {
     position: fixed; top: 56px; left: 0; right: 0;
@@ -361,44 +361,17 @@ body {
   .nav-menu a:last-child { border-bottom: none; }
   .nav-toggle { display: flex; }
 
-  /* Floating profile pill */
+  /* Compact profile pill — scrolls with page, consistent with desktop flow */
   .profile-section {
-    padding: 20px 0 50px;
+    padding: 30px 0 50px;
     min-height: auto;
     display: block !important;
   }
-  .profile-tagline {
-    position: fixed;
-    top: 58px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 50;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--terran-blue);
-    white-space: nowrap;
-    pointer-events: none;
-    background: linear-gradient(90deg, rgba(74,158,255,0) 0%, rgba(74,158,255,1) 50%, rgba(74,158,255,0) 100%);
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 2.5s linear infinite;
-    text-shadow: 0 0 8px rgba(74,158,255,0.2);
-  }
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
   .profile-card {
-    position: fixed;
-    top: 72px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 50;
+    position: relative;
     width: calc(100% - 32px) !important;
     max-width: 360px !important;
+    margin: 0 auto !important;
     padding: 10px 14px !important;
     border-radius: 999px !important;
     display: flex !important;
@@ -411,7 +384,7 @@ body {
     -webkit-backdrop-filter: blur(20px);
     animation: m-card-in 0.5s ease-out both !important;
   }
-  @keyframes m-card-in { 0% { opacity: 0; transform: translateX(-50%) translateY(-10px); } 100% { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  @keyframes m-card-in { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
   .profile-avatar {
     position: relative !important;
     left: auto !important;
@@ -441,6 +414,7 @@ body {
     min-width: 0;
     text-align: left !important;
     padding: 0 !important;
+    overflow: visible;
   }
   .profile-text h1 {
     justify-content: flex-start !important;
@@ -449,6 +423,29 @@ body {
   }
   .profile-text .role,
   .profile-text .subtitle { display: none !important; }
+  .profile-tagline {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(74,158,255,0) 0%, rgba(74,158,255,1) 50%, rgba(74,158,255,0) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2.5s linear infinite;
+    text-shadow: 0 0 8px rgba(74,158,255,0.2);
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
   .profile-btn {
     position: relative !important;
     left: auto !important;
