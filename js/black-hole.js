@@ -31,6 +31,8 @@ const CONFIG = {
   steps: 300,        // 测地线积分步数（背景场景取性能/画质平衡值）
   maxDpr: 1.5,       // 像素比上限
   fov: 44,           // 镜头视场角
+  fovTablet: 52,     // 平板视场角
+  fovMobile: 64,     // 移动端视场角（窄屏确保黑洞完整可见）
   diskInner: 2.75,   // 吸积盘内缘 (RS)
   diskOuter: 40,     // 吸积盘外缘 (RS)
   dopplerMax: 1.85,  // 多普勒增亮上限
@@ -64,6 +66,13 @@ function adaptiveSteps() {
 function adaptiveDpr() {
   const w = window.innerWidth;
   return Math.min(window.devicePixelRatio || 1, w <= 768 ? CONFIG.dprMobile : CONFIG.maxDpr);
+}
+
+function adaptiveFov() {
+  const w = window.innerWidth;
+  if (w <= 768) return CONFIG.fovMobile;
+  if (w <= 1024) return CONFIG.fovTablet;
+  return CONFIG.fov;
 }
 
 /* ================================================================ shaders */
@@ -422,7 +431,7 @@ const rayUni = {
   uTime:       { value: 0 },
   uCamPos:     { value: new THREE.Vector3(4.49, 2.72, 25.46) },
   uCamTarget:  { value: new THREE.Vector3(0, 0, 0) },
-  uFov:        { value: 1 / Math.tan(CONFIG.fov * DEG / 2) },
+  uFov:        { value: 1 / Math.tan(adaptiveFov() * DEG / 2) },
   uSteps:      { value: adaptiveSteps() },
   uRotSign:    { value: 1 },
   uDin:        { value: CONFIG.diskInner },
@@ -444,7 +453,7 @@ fsScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMateri
 })));
 
 // 观察相机：只提供位置/朝向，不渲染任何几何体
-const camera = new THREE.PerspectiveCamera(CONFIG.fov, window.innerWidth / window.innerHeight, 0.01, 200);
+const camera = new THREE.PerspectiveCamera(adaptiveFov(), window.innerWidth / window.innerHeight, 0.01, 200);
 camera.position.set(4.49, 2.72, 25.46);
 
 // 后期管线：光追 → UnrealBloom → 合成（色差/ACES/暗角/颗粒）
@@ -476,15 +485,18 @@ composer.addPass(new ShaderPass({
 function onResize() {
   const w = window.innerWidth, h = window.innerHeight;
   const dpr = adaptiveDpr();
+  const fov = adaptiveFov();
   renderer.setPixelRatio(dpr);
   renderer.setSize(w, h);
   composer.setPixelRatio(dpr);
   composer.setSize(w, h);
   camera.aspect = w / h;
+  camera.fov = fov;
   camera.updateProjectionMatrix();
   renderer.getDrawingBufferSize(bufSize);
   rayUni.uRes.value.copy(bufSize);
   rayUni.uSteps.value = adaptiveSteps();
+  rayUni.uFov.value = 1 / Math.tan(fov * DEG / 2);
   compUni.uRes.value.copy(bufSize);
 }
 window.addEventListener('resize', onResize);

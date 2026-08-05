@@ -367,11 +367,36 @@ body {
     min-height: auto;
     display: block !important;
   }
+  .profile-tagline {
+    position: fixed;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--terran-blue);
+    white-space: nowrap;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(74,158,255,0) 0%, rgba(74,158,255,1) 50%, rgba(74,158,255,0) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 2.5s linear infinite;
+    text-shadow: 0 0 8px rgba(74,158,255,0.2);
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
   .profile-card {
     position: fixed;
     top: 72px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 50;
     width: calc(100% - 32px) !important;
     max-width: 360px !important;
     padding: 10px 14px !important;
