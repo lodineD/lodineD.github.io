@@ -361,53 +361,55 @@ body {
   .nav-menu a:last-child { border-bottom: none; }
   .nav-toggle { display: flex; }
 
-  /* Compact profile pill — scrolls with page, consistent with desktop flow */
+  /* Mobile profile card — centered standalone hero */
   .profile-section {
-    padding: 30px 0 50px;
-    min-height: auto;
-    display: block !important;
+    min-height: calc(100vh - 76px);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px 0 !important;
   }
   .profile-card {
     position: relative;
-    width: calc(100% - 32px) !important;
-    max-width: 360px !important;
+    width: calc(100% - 40px) !important;
+    max-width: 380px !important;
     margin: 0 auto !important;
-    padding: 10px 14px !important;
+    padding: 14px 18px !important;
     border-radius: 999px !important;
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 12px;
+    gap: 14px;
     background: var(--bg-card) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    animation: m-card-in 0.5s ease-out both !important;
+    animation: m-card-in 0.6s ease-out both !important;
   }
-  @keyframes m-card-in { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes m-card-in { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
   .profile-avatar {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     transform: none !important;
-    width: 44px !important;
-    height: 44px !important;
+    width: 52px !important;
+    height: 52px !important;
     margin: 0 !important;
     flex-shrink: 0;
     animation: m-avatar-in 0.5s ease-out 0.2s both !important;
   }
   @keyframes m-avatar-in { 0% { opacity: 0; transform: scale(0.3); } 60% { transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
   .avatar-ring {
-    width: 56px !important;
-    height: 56px !important;
+    width: 64px !important;
+    height: 64px !important;
     top: -6px !important;
     left: -6px !important;
   }
   .avatar-glow {
-    width: 64px !important;
-    height: 64px !important;
-    top: -10px !important;
-    left: -10px !important;
+    width: 74px !important;
+    height: 74px !important;
+    top: -11px !important;
+    left: -11px !important;
   }
   .profile-content {
     flex: 1;
@@ -418,29 +420,23 @@ body {
   }
   .profile-text h1 {
     justify-content: flex-start !important;
-    font-size: 0.95rem !important;
-    margin: 0 !important;
+    font-size: 1.05rem !important;
+    margin: 0 0 2px !important;
   }
   .profile-text .role,
   .profile-text .subtitle { display: none !important; }
   .profile-tagline {
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: max-content;
-    font-size: 0.62rem;
-    letter-spacing: 2px;
+    display: block;
+    margin: 0;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    white-space: nowrap;
-    pointer-events: none;
     background: linear-gradient(90deg, rgba(74,158,255,0) 0%, rgba(74,158,255,1) 50%, rgba(74,158,255,0) 100%);
     background-size: 200% 100%;
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: shimmer 2.5s linear infinite;
-    text-shadow: 0 0 8px rgba(74,158,255,0.2);
   }
   @keyframes shimmer {
     0% { background-position: 200% 0; }
@@ -453,14 +449,14 @@ body {
     top: auto !important;
     transform: none !important;
     margin: 0 !important;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
     animation: none;
   }
-  .profile-btn .hamburger { width: 14px; height: 10px; }
-  .profile-btn .hamburger span::before { top: -4px; }
-  .profile-btn .hamburger span::after { top: 4px; }
+  .profile-btn .hamburger { width: 16px; height: 12px; }
+  .profile-btn .hamburger span::before { top: -5px; }
+  .profile-btn .hamburger span::after { top: 5px; }
 
   /* Social links: dropdown below the pill */
   .social-box {
