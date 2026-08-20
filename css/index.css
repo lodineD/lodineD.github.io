@@ -263,7 +263,7 @@ body {
 .highlight-item .label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 .highlight-item .value { font-size: 1rem; color: #fff; font-weight: 600; margin-top: 4px; }
 
-/* === SKILLS - Race Grouped === */
+/* === SKILLS - Semantic Groups === */
 .race-group { margin-bottom: 24px; }
 .race-header {
   display: flex; align-items: center; gap: 10px;
@@ -274,16 +274,13 @@ body {
   width: 28px; height: 28px; border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
   font-size: 0.85rem; font-weight: 700;
+  background: rgba(74,158,255,0.15); color: var(--terran-blue);
+  border: 1px solid rgba(74,158,255,0.3);
 }
-.race-icon.terran { background: rgba(74,158,255,0.15); color: var(--terran-blue); border: 1px solid rgba(74,158,255,0.3); }
-.race-icon.protoss { background: rgba(255,215,0,0.12); color: var(--protoss-gold); border: 1px solid rgba(255,215,0,0.25); }
-.race-icon.zerg { background: rgba(155,89,182,0.15); color: var(--zerg-purple); border: 1px solid rgba(155,89,182,0.3); }
 .race-name {
   font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
+  color: var(--terran-blue);
 }
-.race-name.terran { color: var(--terran-blue); }
-.race-name.protoss { color: var(--protoss-gold); }
-.race-name.zerg { color: var(--zerg-purple); }
 
 .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .skill-item {
@@ -294,18 +291,13 @@ body {
 .skill-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .skill-name { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: #fff; }
 .skill-name i { font-size: 1.1rem; width: 22px; text-align: center; }
-.skill-level { font-size: 0.75rem; font-weight: 600; }
-.skill-level.terran { color: var(--terran-blue); }
-.skill-level.protoss { color: var(--protoss-gold); }
-.skill-level.zerg { color: var(--zerg-purple); }
+.skill-level { font-size: 0.75rem; font-weight: 600; color: var(--terran-blue); }
 
 .skill-bar { height: 4px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
 .skill-bar-fill {
   height: 100%; border-radius: 2px; width: 0; transition: width 1.5s ease-out;
+  background: linear-gradient(90deg, var(--terran-blue), var(--terran-glow)); box-shadow: 0 0 8px rgba(74,158,255,0.3);
 }
-.skill-bar-fill.terran { background: linear-gradient(90deg, var(--terran-blue), var(--terran-glow)); box-shadow: 0 0 8px rgba(74,158,255,0.3); }
-.skill-bar-fill.protoss { background: linear-gradient(90deg, var(--protoss-gold), var(--protoss-blue)); box-shadow: 0 0 8px rgba(255,215,0,0.3); }
-.skill-bar-fill.zerg { background: linear-gradient(90deg, var(--zerg-purple), var(--zerg-magenta)); box-shadow: 0 0 8px rgba(155,89,182,0.3); }
 .skill-bar-fill.animate { width: var(--target-width); }
 
 /* === BLOG ENTRY - Command Center === */
